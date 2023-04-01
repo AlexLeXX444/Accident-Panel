@@ -1,0 +1,13 @@
+SELECT dev_id,dev_name,dev_right_key,dev_left_key FROM tree_devices;
+
+SELECT dev_id,dev_name,dev_parent_id FROM all_devices WHERE dev_parent_id=1074;
+
+SELECT dev_id,dev_name,dev_parent_id FROM all_devices WHERE dev_name LIKE 'fs.%';
+
+DELETE FROM all_devices WHERE dev_name NOT LIKE 'fs.%';
+
+SELECT * FROM all_devices;
+
+DELETE FROM tree_devices WHERE dev_id > 0;
+
+SELECT * FROM tree_devices;
