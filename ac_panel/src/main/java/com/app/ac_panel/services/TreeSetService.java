@@ -46,4 +46,21 @@ public class TreeSetService {
             return false;
         }
     }
+
+    public void addElements() {
+        List<Device> devices = deviceRepository.findByParentIdNot(0L);
+        List<TreeDevice> treeDevices = treeSetRepository.findAll();
+        int counter = 1;
+        while (counter > 0) {
+            counter = 0;
+
+            for (Device device : devices) {
+                long deviceParentId = device.getParentId();
+                TreeDevice treeDevice = treeSetRepository.findByParentId(deviceParentId); // находим родительский элемент в дереве
+                List<TreeDevice> greaterRightKey = treeSetRepository.findByRightKeyGreaterThan(treeDevice.getRightKey()); // выбираем ВСЕ элементы у которых правый и левый ключи выше чем у родительского
+                devices.remove(device);
+                counter++;
+            }
+        }
+    }
 }

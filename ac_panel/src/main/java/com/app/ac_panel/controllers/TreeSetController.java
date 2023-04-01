@@ -18,4 +18,10 @@ public class TreeSetController {
             return "result_not_ok";
         }
     }
+
+    @GetMapping("/tree/build_desc")
+    public String buildDesc() {
+        //treeSetService.addElements();
+        return "result_ok";
+    }
 }
