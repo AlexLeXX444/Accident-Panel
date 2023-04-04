@@ -49,18 +49,54 @@ public class TreeSetService {
 
     public void addElements() {
         List<Device> devices = deviceRepository.findByParentIdNot(0L);
-        List<TreeDevice> treeDevices = treeSetRepository.findAll();
         int counter = 1;
+
         while (counter > 0) {
             counter = 0;
-
             for (Device device : devices) {
-                long deviceParentId = device.getParentId();
-                TreeDevice treeDevice = treeSetRepository.findByParentId(deviceParentId); // находим родительский элемент в дереве
-                List<TreeDevice> greaterRightKey = treeSetRepository.findByRightKeyGreaterThan(treeDevice.getRightKey()); // выбираем ВСЕ элементы у которых правый и левый ключи выше чем у родительского
-                devices.remove(device);
-                counter++;
+                if (!treeSetRepository.existsById(device.getId())) {
+                    if (addOneElement(device)) {
+                        counter++;
+                    }
+                }
             }
         }
+    }
+
+    public boolean addOneElement(Device device) {
+        TreeDevice parentDevice = treeSetRepository.findById(device.getParentId()); // находим родительский узел по ID
+        if (parentDevice != null) {
+
+            List<TreeDevice> greaterLeftKey = treeSetRepository.findByLeftKeyGreaterThan(parentDevice.getRightKey() - 1); // выбираем ВСЕ элементы у которых левый ключ выше чем у родительского
+            for (TreeDevice treeDeviceLeftKey : greaterLeftKey) {
+                treeDeviceLeftKey.setLeftKey(treeDeviceLeftKey.getLeftKey() + 2);
+            }
+
+            List<TreeDevice> greaterRightKey = treeSetRepository.findByRightKeyGreaterThan(parentDevice.getRightKey() - 1); // выбираем ВСЕ элементы у которых правый ключ выше чем у родительского
+            for (TreeDevice treeDeviceRightKey : greaterRightKey) {
+                treeDeviceRightKey.setRightKey(treeDeviceRightKey.getRightKey() + 2);
+            }
+
+            TreeDevice tDevice = new TreeDevice();
+            tDevice.setId(device.getId());
+            tDevice.setName(device.getName());
+            tDevice.setHostId(device.getHostId());
+            tDevice.setUsCode(device.getUsCode());
+            tDevice.setNodeId(device.getNodeId());
+            tDevice.setNodeName(device.getNodeName());
+            tDevice.setType(device.getType());
+            tDevice.setModel(device.getModel());
+            tDevice.setIpAddress(device.getIpAddress());
+            tDevice.setParentId(device.getParentId());
+            tDevice.setTotalNumberOfLogins(device.getTotalNumberOfLogins());
+            tDevice.setNumberOfLogins(device.getNumberOfLogins());
+            tDevice.setLeftKey(parentDevice.getRightKey() - 2);
+            tDevice.setRightKey(parentDevice.getRightKey() - 1);
+            treeSetRepository.save(tDevice);
+
+            return true;
+        }
+
+        return false;
     }
 }

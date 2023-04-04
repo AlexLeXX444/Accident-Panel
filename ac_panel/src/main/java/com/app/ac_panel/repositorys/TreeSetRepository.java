@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface TreeSetRepository extends JpaRepository<TreeDevice, Long> {
     TreeDevice findByParentId(long deviceParentId);
+    TreeDevice findById(long deviceId);
 
     List<TreeDevice> findByRightKeyGreaterThan(long rightKey);
+    List<TreeDevice> findByLeftKeyGreaterThan(long leftKey);
 }

@@ -6,8 +6,38 @@ SELECT dev_id,dev_name,dev_parent_id FROM all_devices WHERE dev_name LIKE 'fs.%'
 
 DELETE FROM all_devices WHERE dev_name NOT LIKE 'fs.%';
 
-SELECT * FROM all_devices;
+SELECT  dev_id,dev_name,dev_parent_id FROM all_devices;
 
 DELETE FROM tree_devices WHERE dev_id > 0;
 
-SELECT * FROM tree_devices;
+SELECT dev_id,dev_name,dev_left_key,dev_right_key  FROM tree_devices;
+
+SELECT COUNT(*) FROM all_devices;
+
+SELECT COUNT(*) FROM tree_devices;
+
+SELECT dev_id,dev_name,dev_parent_id FROM all_devices WHERE dev_name LIKE 'fs.%';
+
+SELECT dev_id,dev_name,dev_left_key,dev_right_key FROM tree_devices WHERE dev_name LIKE 'fs.%';
+
+SELECT dev_id,dev_name,dev_left_key,dev_right_key,dev_parent_id  FROM tree_devices WHERE dev_parent_id = 3714;
+
+
+INSERT INTO ac_panel.all_devices (dev_id,dev_host_id,dev_ip_address,dev_model,dev_name,dev_node_id,dev_node_name,dev_number_of_logins,dev_parent_id,dev_totel_numbers_of_logins,dev_type,dev_dev_us_code) VALUES
+	(2,10090,'10.10.3.101','DES-1228','fs.DES-1228.km77-sw-u1',639,'Фершампенуаз/Карла Маркса 77',0,4,4,'Коммутатор 28',663),
+	 (4,10161,'10.10.3.100','DGS-3612G','fs.DGS-3612G.km77-core-sw',639,'Фершампенуаз/Карла Маркса 77',0,478,40,'Коммутатор 12',664),
+	 (5,10162,'10.10.3.102','DES-3200-28','fs.DES-3200-28.len65-sw-u2',623,'Фершампенуаз/Ленина 65',1,3642,1,'Коммутатор 28',659),
+	 (6,10163,'10.10.3.103','DES-3200-28','fs.DES-3200-28.len59-sw-u3',635,'Фершампенуаз/Ленина 59',3,3642,3,'Коммутатор 28',662),
+	 (7,10164,'10.10.3.104','DES-3200-28','fs.DES-3200-28.len57-sw-u4',634,'Фершампенуаз/Ленина 57',2,3642,2,'Коммутатор 28',661),
+	 (9,10166,'10.10.3.106','DES-3200-28','fs.DES-3200-28.blue45-sw-u6',648,'Фершампенуаз/Блюхера 45',2,3642,2,'Коммутатор 28',666),
+	 (10,10167,'10.10.3.107','DES-3200-28','fs.DES-3200-28.blue49-sw-u7',646,'Фершампенуаз/Блюхера 49',0,3642,0,'Коммутатор 28',665),
+	 (86,10306,'10.103.20.100','psm2','fs.psm2.len65-ap1',623,'Фершампенуаз/Ленина 65',4,2,4,'Радиооборудование АР',660),
+	 (248,10617,'10.103.54.100','psm2','fs.psm2.mech38-ap1',654,'Фершампенуаз/Механизаторов 38',7,4,7,'Радиооборудование АР',668),
+	 (478,10907,'10.10.3.1','rb750','fs.rb750.km77-pe',639,'Фершампенуаз/Карла Маркса 77',0,0,145,'Коммутатор 5',2797),
+	 (1214,11908,'10.10.3.10','c2000-eth','fs.c2000-eth.head',0,'',0,0,0,'',0),
+	 (1723,12479,'10.103.76.100','sxt-sa5','fs.sxt-sa5.mech38-ap3',654,'Фершампенуаз/Механизаторов 38',16,4,16,'Радиооборудование АР',669),
+	 (2047,12847,'10.10.3.11','IP-E022_1','fs.IP-E022_1.km77-core-cam',639,'Фершампенуаз/Карла Маркса 77',0,0,0,'Камера',0),
+	 (2698,13512,'10.10.3.50','hEX','fs.hEX.km77-szo-gw',639,'Фершампенуаз/Карла Маркса 77',0,0,0,'Коммутатор 5',2754),
+	 (3396,14308,'10.10.3.12','LB5AC','fs.LB5AC.km77-br-rassvet',639,'Фершампенуаз/Карла Маркса 77',0,4,13,'Радиооборудование мост',11684),
+	 (3642,14566,'10.10.3.120','FD1108S','fs.FD1108S.km77-olt',639,'Фершампенуаз/Карла Маркса 77',74,478,82,'C-Data FD1108S',11996),
+	 (3831,14890,'10.10.3.16','PB5AC','fs.PB5AC.km77-br-sluda',639,'Фершампенуаз/Карла Маркса 77',0,478,23,'Радиооборудование мост',12362);

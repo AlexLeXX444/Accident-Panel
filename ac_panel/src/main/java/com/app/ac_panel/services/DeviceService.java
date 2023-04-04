@@ -1,5 +1,6 @@
 package com.app.ac_panel.services;
 
+import com.app.ac_panel.models.Device;
 import com.app.ac_panel.models.Devices;
 import com.app.ac_panel.repositorys.DeviceRepository;
 import lombok.RequiredArgsConstructor;
