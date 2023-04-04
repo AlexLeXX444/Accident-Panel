@@ -99,4 +99,13 @@ public class TreeSetService {
 
         return false;
     }
+
+    public boolean removeOneElement(Device device) {
+        TreeDevice removedDevice = treeSetRepository.findById(device.getId()).orElse(null);
+        if (removedDevice != null) {
+
+            return true;
+        }
+        return false;
+    }
 }
