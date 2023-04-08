@@ -12,7 +12,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class TreeSetService {
+public class TreeDeviceService {
     private final TreeDeviceRepository treeDeviceRepository;
     private final DeviceRepository deviceRepository;
 
@@ -76,21 +76,30 @@ public class TreeSetService {
         return false;
     }
 
-    public boolean removeOneElement(Device device) {
-        TreeDevice treeDevice = treeDeviceRepository.findById(device.getId()).orElse(null);
+    public boolean removeElements(long id) {
+        TreeDevice treeDevice = treeDeviceRepository.findById(id);
+
         if (treeDevice != null) {
 
-            List<TreeDevice> greaterLeftKey = treeDeviceRepository.findByLeftKeyGreaterThan(treeDevice.getLeftKey()); // выбираем ВСЕ элементы у которых левый ключ выше чем у родительского
+            List<TreeDevice> deletedTreeDevices = returnFollowers(treeDevice);
+            long leftKey = treeDevice.getLeftKey();
+            long rightKey = treeDevice.getRightKey();
+            long delta = rightKey - leftKey + 1;
+
+            treeDeviceRepository.deleteAll(deletedTreeDevices);
+
+            List<TreeDevice> greaterLeftKey = treeDeviceRepository.findByLeftKeyGreaterThan(leftKey); // выбираем ВСЕ элементы у которых левый ключ выше чем у родительского
             for (TreeDevice treeDeviceLeftKey : greaterLeftKey) {
-                treeDeviceLeftKey.setLeftKey(treeDeviceLeftKey.getLeftKey() - 2);
+                treeDeviceLeftKey.setLeftKey(treeDeviceLeftKey.getLeftKey() - delta);
+                treeDeviceRepository.saveAll(greaterLeftKey);
             }
 
-            List<TreeDevice> greaterRightKey = treeDeviceRepository.findByRightKeyGreaterThan(treeDevice.getRightKey()); // выбираем ВСЕ элементы у которых правый ключ выше чем у родительского
+            List<TreeDevice> greaterRightKey = treeDeviceRepository.findByRightKeyGreaterThan(rightKey); // выбираем ВСЕ элементы у которых правый ключ выше чем у родительского
             for (TreeDevice treeDeviceRightKey : greaterRightKey) {
-                treeDeviceRightKey.setRightKey(treeDeviceRightKey.getRightKey() - 2);
+                treeDeviceRightKey.setRightKey(treeDeviceRightKey.getRightKey() - delta);
+                treeDeviceRepository.saveAll(greaterRightKey);
             }
 
-            treeDeviceRepository.deleteById(treeDevice.getId());
             return true;
         }
         return false;
@@ -98,14 +107,15 @@ public class TreeSetService {
 
     public List<TreeDevice> returnFollowers(TreeDevice treeDevice) {
         List<TreeDevice> followersTreeDevices = new ArrayList<TreeDevice>();
-        followersTreeDevices.add(treeDevice);
 
         if ((treeDevice.getRightKey() - treeDevice.getLeftKey()) > 1 ) {
             followersTreeDevices = treeDeviceRepository.findByLeftKeyGreaterThan(treeDevice.getLeftKey());
             followersTreeDevices.removeIf(s -> s.getRightKey() > treeDevice.getRightKey());
+            followersTreeDevices.add(treeDevice);
             return followersTreeDevices;
         }
 
-        return new ArrayList<TreeDevice>();
+        followersTreeDevices.add(treeDevice);
+        return followersTreeDevices;
     }
 }

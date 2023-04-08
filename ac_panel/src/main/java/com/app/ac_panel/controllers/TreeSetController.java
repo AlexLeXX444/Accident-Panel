@@ -1,18 +1,19 @@
 package com.app.ac_panel.controllers;
 
-import com.app.ac_panel.services.TreeSetService;
+import com.app.ac_panel.services.TreeDeviceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequiredArgsConstructor
 public class TreeSetController {
-    private final TreeSetService treeSetService;
+    private final TreeDeviceService treeDeviceService;
 
     @GetMapping("/tree/build")
     public String buildHeaders() {
-        if (treeSetService.createHeaders()) {
+        if (treeDeviceService.createHeaders()) {
             return "result_ok";
         } else {
             return "result_not_ok";
@@ -21,7 +22,20 @@ public class TreeSetController {
 
     @GetMapping("/tree/build_desc")
     public String buildDesc() {
-        treeSetService.addElements();
+        treeDeviceService.addElements();
         return "result_ok";
+    }
+
+    @GetMapping("/tree/remove/{id}")
+    public String removeDevices(@PathVariable long id) {
+        try {
+            if (treeDeviceService.removeElements(id)) {
+                return "result_ok";
+            } else {
+                return "result_not_ok";
+            }
+        } catch (Exception e) {
+            return "result_not_ok";
+        }
     }
 }
