@@ -1,6 +1,5 @@
 package com.app.ac_panel.controllers;
 
-import com.app.ac_panel.services.DeviceService;
 import com.app.ac_panel.services.TreeSetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class TreeSetController {
     private final TreeSetService treeSetService;
-    private final DeviceService deviceService;
 
     @GetMapping("/tree/build")
     public String buildHeaders() {

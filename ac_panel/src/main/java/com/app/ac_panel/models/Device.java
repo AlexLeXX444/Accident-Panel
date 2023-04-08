@@ -1,5 +1,6 @@
 package com.app.ac_panel.models;
 
+import com.app.ac_panel.models.treeset.TreeDevice;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

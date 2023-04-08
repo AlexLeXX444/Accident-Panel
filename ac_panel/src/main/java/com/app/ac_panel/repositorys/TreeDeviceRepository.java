@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface TreeSetRepository extends JpaRepository<TreeDevice, Long> {
+public interface TreeDeviceRepository extends JpaRepository<TreeDevice, Long> {
     TreeDevice findByParentId(long deviceParentId);
     TreeDevice findById(long deviceId);
 
